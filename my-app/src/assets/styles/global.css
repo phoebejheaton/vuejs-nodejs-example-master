@@ -1,12 +1,11 @@
-.header {
-    padding: 2%;
-    background-color: rgb(52, 58, 64);
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
-    color: white;
- }
- 
+.split {
+  height: 100%;
+  position: fixed;
+  z-index:1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
  .footer {
    padding: 2%;
     background-color: red;
@@ -20,7 +19,7 @@
  }
 
 h1 {
-  text-align: center;
+  text-align: left;
 }
 
 .display-board {
@@ -39,3 +38,26 @@ h1 {
   width: 100%;
 }
 
+/* .wrapper {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  grid-template-columns: topBar 1fr;
+  grid-auto-rows: minmax(20px, auto);
+} */
+/* 
+.entries {
+  grid-row: 2;
+/* } */
+
+/*.topBar {
+  grid-column: 1/2;
+  grid-row: 1;
+} */
+
+.header {
+  padding: 1%;
+  background-color: rgb(0, 123, 255);
+  font-size: 40px;
+  width: 100%;
+  color: white;
+} 

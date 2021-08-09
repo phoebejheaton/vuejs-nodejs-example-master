@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        DTCODE PROTO
+        Downtime Codes
     </div>
 </template>
 

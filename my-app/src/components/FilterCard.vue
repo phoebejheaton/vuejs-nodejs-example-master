@@ -36,19 +36,23 @@ export default ({
     methods: {
         sendFlipToParent() {
             this.open = !this.open;
-            this.$emit('flipFromChild', (this.$props.item));
+            if(this.$props.item === "Tool Change Codes")
+                this.$emit('flipFromChild', 'T');
+            else
+                this.$emit('flipFromChild', 'D');
         },
         sendAddToParent() {
             this.adding = !this.adding;
-            if(this.$props.item == "Downtime Codes")
-                this.$emit('bigAddFromChild', 'D');
-            else
+            console.log('item = ' + this.$props.item)
+            if(this.$props.item === "Tool Change Codes")
                 this.$emit('bigAddFromChild', 'T');
+            else
+                this.$emit('bigAddFromChild', 'D');
         }
     },
     computed: {
         checkOpen () {
-            console.log(this.$props.item)
+            console.log(this.type)
             return this.open;
         },
         checkAdding () {

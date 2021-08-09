@@ -1,70 +1,70 @@
 <template>
-    <div class='container ml-5 mr-2 pl-5 pr-2'>
-        <b-container >
-            <b-card-group deck v-for="item in itemsBefore" v-bind:key="item.name">
-                <template>
-                    <FilterCard v-on:flipFromChild="flipFromChildReceived" 
-                                v-on:bigAddFromChild="bigAddFromChildReceived"
-                                :item="item.name"></FilterCard>
-                </template> 
-            </b-card-group>
+    <div class = "wrapper">
+        <div class='left ml-5 mr-2 pr-2'>
+            <b-container fluid>
+                 <b-card-group class="mb-0 mt-4 ml-2 " deck v-for="entry in EntryExpanded" v-bind:key="entry.DowntimeCode" style="max-width:55rem">
+                    <template>
+                        <keep-alive>
+                            <component v-bind:is="override" v-on:indexFromChild="indexFromChildReceived" 
+                                    v-on:indexFromGrandchild="indexFromGrandchildReceived"
+                                    v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
+                                    v-on:addIndexFromChild="addIndexFromChildReceived" v-bind:extendable="true"
+                                    :entry="entry" :addingTo="addingTo"></component>
+                        </keep-alive>
+                    </template>
+                </b-card-group>
 
-            <template v-if="wholeAddingTo">
-                <AddNewSubgroup v-on:dataSentFromChild="dataSentFromChildReceived" :item="chosenADD"></AddNewSubgroup>
-            </template>
-
-            <b-card-group class="mt-4 mb-4 ml-2" deck v-for="entry in SimilarEntriesBeforeSlice" v-bind:key="entry.DowntimeCode">
-                <template>
-                    <keep-alive>
-                        <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" :entry="entry"></component>
-                    </keep-alive>
-                </template> 
-            </b-card-group>
-
-            <b-card-group class="mb-0 ml-2" deck v-for="entry in EntryExpanded" v-bind:key="entry.DowntimeCode" style="max-width:55rem">
-                <template>
-                    <keep-alive>
-                        <component v-bind:is="override" v-on:indexFromChild="indexFromChildReceived" 
-                                   v-on:indexFromGrandchild="indexFromGrandchildReceived"
-                                   v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
-                                   v-on:addIndexFromChild="addIndexFromChildReceived" v-bind:extendable="true"
-                                   :entry="entry" :addingTo="addingTo"></component>
-                    </keep-alive>
-                </template>
-            </b-card-group>
-
-            <b-card-group class="mt-0 ml-5 " deck v-for="entry in EntriesExpandedChildren" v-bind:key="entry.DowntimeCode">
-                <template>
-                    <keep-alive>
-                        <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" 
-                        v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
-                        v-on:indexFromGrandchild="indexFromGrandchildReceived"
-                         v-bind:extendable="false"
-                        :entry="entry"></component>
-                    </keep-alive>
-                </template>
-            </b-card-group>
-
-            <b-card-group class="mt-0 ml-5" deck v-for="entry in EntryExpanded" v-bind:key="entry.DownTimeL3">
-                <template v-if="addingTo">
-                    <AddToExisting v-on:addDataToSub="addDataToSubReceived" :entry="entry"></AddToExisting>
-                </template>
-            </b-card-group>
                 
-            <b-card-group class="mb-4 mt-4 ml-2" deck v-for="entry in SimilarEntriesAfterSlice" v-bind:key="entry.DowntimeCode">
-                <template>
-                    <keep-alive>
-                        <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" :entry="entry"></component>
-                    </keep-alive>
-                </template>
-            </b-card-group>
+                <div v-show="expanded==null">
+                <b-card-group  deck v-for="item in itemsBefore" v-bind:key="item.name">
+                    <template>
+                        <FilterCard v-on:flipFromChild="flipFromChildReceived" 
+                                    v-on:bigAddFromChild="bigAddFromChildReceived"
+                                    :item="item.name"></FilterCard>
+                    </template> 
+                </b-card-group>
 
-            <b-card-group class="mb-3" deck v-for="item in itemsAfter" v-bind:key="item.name">
-                <template>
-                    <FilterCard v-on:flipFromChild="flipFromChildReceived" :item="item"></FilterCard>
-                </template> 
-            </b-card-group>
-        </b-container>
+                <template v-if="wholeAddingTo">
+                    <AddNewSubgroup v-on:dataSentFromChild="dataSentFromChildReceived" :item="chosenADD"></AddNewSubgroup>
+                </template>
+
+               
+                    <b-card-group class="mt-4 mb-4 ml-2 " deck v-for="entry in SimilarEntries" v-bind:key="entry.DowntimeCode">
+                        <template >
+                            <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" :entry="entry"></component>
+                        </template> 
+                    </b-card-group>
+
+                <b-card-group class="mb-3 " deck v-for="item in itemsAfter" v-bind:key="item.name">
+                    <template>
+                        <FilterCard v-on:flipFromChild="flipFromChildReceived" :item="item.name"></FilterCard>
+                    </template> 
+                </b-card-group>
+                </div>
+            </b-container>
+        </div>
+
+        <div class='right mr-2 pr-2 mt-5 pt-5'>
+            <b-container fluid>
+            <b-card-group class="mt-1 " deck v-for="entry in EntriesExpandedChildren" v-bind:key="entry.DowntimeCode">
+                    <template>
+                        <keep-alive>
+                            <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" 
+                            v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
+                            v-on:indexFromGrandchild="indexFromGrandchildReceived"
+                            v-bind:extendable="false"
+                            :entry="entry"></component>
+                        </keep-alive>
+                    </template>
+                </b-card-group>
+
+                <b-card-group class="mt-1 " deck v-for="entry in EntryExpanded" v-bind:key="entry.DownTimeL3">
+                    <template v-if="addingTo">
+                        <AddToExisting v-on:addDataToSub="addDataToSubReceived" :entry="entry"></AddToExisting>
+                    </template>
+                </b-card-group>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -93,7 +93,7 @@ export default {
                 cardShow: 'SmallCard',
                 chosenDTC: "N",
                 chosenADD: 'D',
-                items: [{name :"Downtime Codes"}, {name: "Tool Change Codes"}],
+                items: [{name: "Downtime Codes "}, {name: "Tool Change Codes"}],
                 addingTo: false,
                 wholeAddingTo: false,
                 extendable: Boolean
@@ -127,15 +127,21 @@ export default {
             },
             flipFromChildReceived(item){
                 console.log("flipped!!!!!!!")
-                if(this.chosenDTC === 'N'){
-                    if(item === "Downtime Codes")
-                    {   this.chosenDTC = "D";}
-                    else if(item === "Tool Change Codes")
-                    {   this.chosenDTC = "T";}
-                } else {
+                console.log('flipped item:' + item)
+                console.log('dtc: ' + this.chosenDTC)
+                if(this.chosenDTC === 'D' && item === 'D'){
                     this.chosenDTC = 'N';
                     this.expanded = null;
+                } else if(this.chosenDTC === 'T' && item === 'T'){
+                    this.chosenDTC = 'N';
+                    this.expanded = null;
+                } else {
+                    if(item === "D")
+                    {   this.chosenDTC = "D";}
+                    else if(item === "T")
+                    {   this.chosenDTC = "T";}
                 }
+                console.log(this.chosenDTC)
             },
             addIndexFromChildReceived(){
                 console.log("changing add to!!!!!")
@@ -182,7 +188,9 @@ export default {
                     
                     toExpand.sort( (a,b) => a.DownTimeL3.localeCompare(b.DownTimeL3));
                     return toExpand;
-                } else return null;
+                } else{ 
+                    return null;
+                }
             },
             SimilarEntriesBeforeSlice: function () {
                 if(this.expanded != null){
@@ -218,31 +226,50 @@ export default {
             },
             itemsBefore: function () {
                 var ret = {};
-                if(this.chosenDTC == 'D')
-                    ret = this.items[0];
-                else
+                console.log("chosen: " + this.chosenDTC)
+                if(this.chosenDTC === 'D'){
+                    ret = this.items.filter(item => (item.name.includes("Down")));
+                    console.log("the same")
+                    console.log(this.items.length)
+                }
+                else{
                     ret = this.items;
-                console.log(ret)
+                    console.log("nope")
+                }
+                console.log('items before: ' + ret.name)
                 return ret;
             },
             itemsAfter: function () {
                 var ret = {};
                 if(this.chosenDTC === 'D')
-                    ret = this.items[1];
+                    ret = this.items.filter(item => (item.name.includes("Tool")));
                 return ret;
             },
+            checkExtended: function () {
+                return this.expanded
+            }
         }
     };
 
 </script>
-<!--
+
 <style scoped>
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: minmax(20px, auto);
+    }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 2s;
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0;
-}
+    .left{
+        grid-row:1;
+        grid-column:1/2;
+        align-self: left;
+    }
 
-</style>-->
+    .right{
+        grid-row:1;
+        grid-column:2/3;
+        align-self: left;
+    }
+
+</style>

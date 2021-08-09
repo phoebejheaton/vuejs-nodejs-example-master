@@ -1,10 +1,19 @@
 <template>
-    <b-card no-body class = "mt-2 mb-1" border-variant="dark" bg-variant="dark" text-variant="white" style="max-width: 45rem">
+    <b-card no-body class = "card mt-2 mb-1" border-variant="dark" bg-variant="dark" text-variant="white">
             <b-card-body >
                 <b-row class = "border-bottom" >
-                    <b-col >   
-                        <span v-if="toolChecker"> <b-card-title>{{entry.DownTimeL4}} -</b-card-title></span>
-                        <span v-else ><b-card-title> {{entry.DownTimeL3}} - </b-card-title> </span>
+                    <b-col>
+                        <span v-if="firstOrLater">
+                            <b-card-title> {{entry.DownTimeL4}} -</b-card-title>
+                        </span>
+                        <span v-else>
+                            <b-card-title> {{entry.DownTimeL3}} -</b-card-title>
+                        </span>
+                    </b-col>
+                    <b-col md="7">
+                        <span v-if="!firstOrLater">
+                            <b-card-title> {{entry.DownTimeL4}} </b-card-title>
+                        </span>
                     </b-col>
                 </b-row>
                 <b-row class = "text-left mt-2">
@@ -32,7 +41,16 @@ export default ({
     computed: {
         toolChecker: function () {
             return this.$props.entry.DowntimeCode.includes("TC");
+        },
+        firstOrLater: function () {
+            return (this.$props.entry.DownTimeL3 === this.$props.entry.DownTimeL4)||(this.$props.entry.DownTimeL3==='Tool Change')
         }
     }
 })
 </script>
+
+<style scoped>
+    .card{
+        width: 100%;
+    }
+</style>

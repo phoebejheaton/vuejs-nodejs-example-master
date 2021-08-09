@@ -1,26 +1,17 @@
 <template>
-  <div class="hello">
-    <Header />
-    <div class="container ml-5 mt-3 pl-5" >
-          <div class="row">
-            <div class="col">
-                <DisplayBoard :numberOfEntries="numberOfEntries" @getAllEntries="getAllEntries()" />
-            </div>
-          </div>
-    </div>
-    <div class="row mrgnbtm">
-        <Entry v-if="Entries.length > 0" v-on:entryFromChildDelete="entryFromChildDeleteReceived" 
-               v-on:editIndexFromChild="editIndexFromChildReceived" 
-               v-on:addDataToSubSending="addDataToSubReceived" 
-               v-on:dataSentFromGrandchild="dataSentFromGrandchildReceived"
-               :Entries="Entries"/>
-    </div>
+  <div>
+      <Header/>
+      <Entry v-if="Entries.length > 0" v-on:entryFromChildDelete="entryFromChildDeleteReceived" 
+              v-on:editIndexFromChild="editIndexFromChildReceived" 
+              v-on:addDataToSubSending="addDataToSubReceived" 
+              v-on:dataSentFromGrandchild="dataSentFromGrandchildReceived"
+              :Entries="Entries"/>
   </div>
 </template>
 
 <script>
 import Header from './Header.vue'
-import DisplayBoard from './DisplayBoard.vue'
+//import DisplayBoard from './DisplayBoard.vue'
 import Entry from './Entry.vue'
 import { getAllEntries } from '../services/EntryService'
 import {deleteEntry} from '../services/EntryService'
@@ -32,7 +23,7 @@ export default {
   name: 'Dashboard',
   components: {
     Header,
-    DisplayBoard,
+    //DisplayBoard,
     Entry,
    // SmallCard,
     //BigCard
