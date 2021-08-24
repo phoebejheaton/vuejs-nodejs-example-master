@@ -1,11 +1,16 @@
-☐ Seach bar: search by main buzzword, ie search by DTL3 or DTL4
-☐ Email alerts for any modification but ask first. IE: pop up alert of do you want to send an email out for this
-☐ Buttons on screen, pop up: log in access denied
-☐ Excluding multiple machines
+✔ Seach bar: search by main buzzword, ie search by DTL3 or DTL4 @done(21-08-11 10:56)
+✔ Email alerts for any modification but ask first. IE: pop up alert of do you want to send an email out for this ie toast @done(21-08-17 12:18)
+✔ Buttons on screen, pop up: log in access denied ie toast @started(21-08-12 14:27) @done(21-08-12 15:05) @lasted(38m13s)
+✔ Excluding multiple machines - make weird tester?? figure it out i guess lol @done(21-08-19 13:28)
+✔ User authentication @done(21-08-12 14:18)
 ✔ Not preselected options for radio buttons on adding, but required. Makes sure people add in correctly. @done(21-08-05 15:45)
 ✔ Order by frequently used (cannot do - out of scope) @done(21-08-09 12:10)
 ✔ Tree diagram layout. Split screen into two sections - selected on LHS, expanded on RHS @done(21-08-09 12:10)
 ✔ Selected big, expanded small @done(21-08-06 10:12)
 ✔ When expanded, other options on screen disappear @done(21-08-06 10:12)
-☐ Maybe permissions to bring back previously deleted
+✔ Notifications for successful/rejected database modifications @done(21-08-09 15:39)
+✔ Make presentation look like other LISI apps @done(21-08-11 10:56)
+✔ Recursive and infinite additions @done(21-08-11 12:27)
+✔ If no results then box to show and sort off offset @done(21-08-13 09:09)
+☐ When adding into database - save back up copy to a seperate database, check if entry already exists in database and if so pop up toast
 ☐ Very robust training and documentation available to use it. make sure its good and usable before you leave

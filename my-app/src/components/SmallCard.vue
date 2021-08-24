@@ -1,5 +1,5 @@
 <template>
-    <b-card no-body class = "card mt-2 mb-1" border-variant="dark" bg-variant="dark" text-variant="white">
+    <b-card no-body class = "card mt-2 mb-1" border-variant="primary" bg-variant="dark" text-variant="white">
             <b-card-body >
                 <b-row class = "border-bottom" >
                     <b-col>
@@ -21,7 +21,7 @@
                         <b-card-text> {{entry.Description}} </b-card-text>
                     </b-col>
                     <b-col>
-                        <b-button @click="sendIndexToParent">Expand</b-button>
+                        <b-button variant="success" @click="sendIndexToParent">Expand</b-button>
                     </b-col>
                 </b-row>
             </b-card-body>

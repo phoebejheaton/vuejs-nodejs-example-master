@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-pseudo-window": "^1.0.0",
+    "vue-router": "^3.5.2",
     "vue-window-size": "^1.1.2"
   },
   "devDependencies": {

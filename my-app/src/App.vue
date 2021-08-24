@@ -22,5 +22,4 @@ export default {
 <style>
   @import './assets/styles/global.css';
 
-
 </style>
