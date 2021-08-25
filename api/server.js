@@ -1,7 +1,6 @@
 var express = require('express');
 const path = require('path');
 const nodemailer = require("nodemailer");
-const prompt = require('prompt-sync')({sigint: true});
 const {Sequelize, Model, DataTypes, DatabaseError, QueryTypes, Op} = require('sequelize');
 const { application } = require('express');
 
@@ -245,10 +244,10 @@ app.get('/api/getexcludes', async function(req,res){
 });
 */
 
-app.use(express.static(path.join(__dirname, '../app/dist')));
+app.use(express.static(path.join(__dirname, '../my-app/dist')));
 
 app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname, '../app/build/index.html'));
+    res.sendFile(path.join(__dirname, '../my-app/build/index.html'));
 });
 
 app.get('/api/user', function (req, res) {

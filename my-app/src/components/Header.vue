@@ -1,7 +1,7 @@
 <template >
 <div class="header">
     <b-navbar type="dark" variant="primary">
-        <img src="../../dist/logo_new.svg" width="110" height="40">
+        <img src="../assets/logo_new.svg" width="110" height="40">
         <b-dropdown id="depDD" class="ml-2 dropdown" :text="depString" variant="success">
         <b-dropdown-item v-for="department in Departments" v-bind:key="department.Department" @click="depSelect(department.Department)">
                         {{department.Department}}<b-dropdown-divider></b-dropdown-divider></b-dropdown-item>
