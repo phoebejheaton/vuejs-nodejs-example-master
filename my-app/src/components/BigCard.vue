@@ -22,7 +22,7 @@
             </b-row>
             <b-row class="mb-2 mt-1">
                 <b-col md = "2">
-                    <b-card-text> Machine Model: </b-card-text>
+                    <b-card-text> Process: </b-card-text>
                 </b-col>
                 <b-col md = "2">
                     <b-card-text> {{entry.Filter}} </b-card-text>
