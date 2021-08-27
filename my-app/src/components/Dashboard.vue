@@ -14,6 +14,7 @@
               v-on:addDataToSubSending="addDataToSubReceived" 
               v-on:dataSentFromGrandchild="dataSentFromGrandchildReceived"
               v-on:resetSearch="resettingSearch" :WorkCentres="WorkCentres"
+              ref="entryChild"
               :Entries="Entries" :searchingFor="searchingFor" :userStat="userStat"
               :Excludes="Excludes"/>
   </div>
@@ -75,12 +76,14 @@ export default {
         getWCs().then(response => {
           console.log(response)
           this.WorkCentres = response;
+          this.$refs["entryChild"].resetAll();
         })
       })
     },
     wcSelectReceived(index){
       postWC(index).then(response => {
         console.log(response)
+        this.$refs["entryChild"].resetAll();
         this.getAllEntries();
       });
     },

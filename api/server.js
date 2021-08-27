@@ -269,7 +269,7 @@ app.post('/api/logon/:PASS', function (req,res) {
 });
 
 app.get('/api/database', async function (req, res) {
-
+    console.log(chosenWC);
     try{
         const ans = await Code.findAll({
             attributes: ['DowntimeCode', 'DownTimeL3', 'DownTimeL4', 'AccessLevel', 'Filter', 'Exclude', 'Description'],   
@@ -482,6 +482,6 @@ app.post('/api/database/add/:DTC/:DTL4/:DESC/:EMAIL', async (req, res) => {
     res.json("added");
 });
 
-var server = app.listen(3080, function () {
+var server = app.listen(3080, '0.0.0.0', function () {
     console.log('Server is running on port 3000');
 });

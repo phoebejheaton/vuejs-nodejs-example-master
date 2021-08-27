@@ -7,7 +7,7 @@
                         {{department.Department}}<b-dropdown-divider></b-dropdown-divider></b-dropdown-item>
         </b-dropdown>
         <b-dropdown id="wcDD" class="ml-1 dropdown" :text="wcString" variant="success">
-        <b-dropdown-item v-for="wc in WorkCentres" v-bind:key="wc.WCCode" @click="wcSelect(wc.WCCode)">{{wc.Description}}<b-dropdown-divider></b-dropdown-divider></b-dropdown-item>
+        <b-dropdown-item v-for="wc in changeWorkCentre" v-bind:key="wc.WCCode" @click="wcSelect(wc.WCCode)">{{wc.Description}}<b-dropdown-divider></b-dropdown-divider></b-dropdown-item>
         </b-dropdown>
             <b-nav-form class="ml-auto">
                 <b-form-input class="mr-1" v-model="searchVal" placeholder="Search...">{{searchVal}}</b-form-input>
@@ -48,10 +48,21 @@
         props: ['userStat', 'Departments', 'WorkCentres'],
         name: 'Header',
         methods: {
+            changeUpWorkCentres(){
+                this.upWorkCentres = [];
+                if(this.$props.WorkCentres != undefined){
+                    console.log(this.$props.WorkCentres)
+                    this.upWorkCentres.push({Description: 'ALL', WCCode: 'ALL'});
+                    this.$props.WorkCentres.forEach(element => {
+                        this.upWorkCentres.push({Description: element.Description, WCCode: element.WCCode});
+                    });
+                }
+            },
             depSelect(index) {
                 this.selectedDepartment = index;
                 console.log("department selected!!!!!");
                 this.$emit("departmentSelect", index);
+                this.wcSelect("ALL");
             },
             wcSelect(index){
                 this.selectedWC = index;
@@ -87,6 +98,7 @@
             return {
                 searchVal:'',
                 userPass: '',
+                upWorkCentres: [],
                 selectedDepartment: '',
                 selectedWC: ''
             }
@@ -107,6 +119,11 @@
                 if(this.selectedWC === '')
                     return 'Work Centres'
                 else return this.selectedWC
+            },
+            changeWorkCentre: function () {
+                this.changeUpWorkCentres();
+                console.log(this.upWorkCentres)
+                return this.upWorkCentres;
             }
         }
     });

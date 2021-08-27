@@ -121,6 +121,13 @@ export default {
             }
         },
         methods: {
+            resetAll(){
+                this.expanded = null;
+                this.addingTo = false;
+                this.wholeAddingTo = false;
+                this.chosenADD = 'N';
+                this.chosenDTC = 'N';
+            },
             expandRow(entry) {
                 if(this.expanded != null){
                     if(this.expanded === entry){
