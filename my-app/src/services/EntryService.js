@@ -59,17 +59,18 @@ export async function editEntry(index,data, email) {
     return await response.json();
 }
 
-export async function addEntry(index, DTL3, DESC, email) {
+export async function addEntry(index, DTL3, DESC, email, rank) {
     const dtcStr = index.DowntimeCode;
-    const response = await fetch('/api/database/add/' + dtcStr + '/' + DTL3 + '/' + DESC + '/' + email, {
+    console.log(rank)
+    const response = await fetch('/api/database/add/' + dtcStr + '/' + DTL3 + '/' + DESC + '/' + email + '/' + rank, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}
     })
     return await response.json();
 }
 
-export async function addSubGroup(TYP, DTL2, DTL3, FLTR, EXCL, DESC, email) {
-    const response = await fetch('/api/database/add/' + TYP + '/' + DTL2 + '/' + DTL3 + '/' + FLTR + '/' + EXCL + '/' + DESC + '/' + email, {
+export async function addSubGroup(TYP, DTL2, DTL3, FLTR, EXCL, DESC, email, rank) {
+    const response = await fetch('/api/database/add/' + TYP + '/' + DTL2 + '/' + DTL3 + '/' + FLTR + '/' + EXCL + '/' + DESC + '/' + email + '/' + rank, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'}
     })

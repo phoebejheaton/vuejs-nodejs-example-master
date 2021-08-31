@@ -1,18 +1,21 @@
 var express = require('express');
 const path = require('path');
 const nodemailer = require("nodemailer");
-const {Sequelize, Model, DataTypes, DatabaseError, QueryTypes, Op} = require('sequelize');
-const { application } = require('express');
+const {Sequelize, Model, DataTypes, Op} = require('sequelize');
 
 var app = express();
 
+//bool to log user status
 var loggedOn = false;
 
+//Strings to hold chosen department and work centre. must == to database terms as quoted in query
 var chosenDep = '';
 var chosenWC = 'Z';
 
+//hashed 
 const password = '1216985755';
 
+//email object configuration
 async function email(emailContent) {
     try{
         //let testAccount = await nodemailer.createTestAccount();
@@ -36,7 +39,6 @@ async function email(emailContent) {
     }
     
 }
-
 
 
 const sequelize = new Sequelize('RUG_ShopFloor', 'pheaton', 'pheaton', {
@@ -168,6 +170,7 @@ async function backUpRequest(){
     } catch(e){console.log("caught ", e)}
 };
 
+
 app.get('/api/department', async function(req,res){
     try{
         const ans = await Centres.findAll({attributes: [
@@ -192,12 +195,12 @@ function find(item){
 */ 
 app.post('/api/chosendepartment/:INDEX', async function (req,res){
     chosenDep = req.params.INDEX;
-    res.json("chosen!!!!");
+    res.json("chosen department!!!!");
 });
 
 app.post("/api/chosenwc/:INDEX", async function (req,res){
     chosenWC = req.params.INDEX;
-    res.json("chosen!!!!");
+    res.json("chosen work centre!!!!");
 });
 
 app.get('/api/getWC', async function(req,res){
@@ -210,6 +213,7 @@ app.get('/api/getWC', async function(req,res){
     } catch(e){console.log("caught ", e)}
 });
 
+//************OLD FUNCTIONS USED TO DYNAMICALLY FILL DEPARTMENTS/WORK CENTRES/MACHINES FROM vWCDEFINITIONS************ */
 // app.post('/api/selectedprocess/:WC', async function(req,res){
 //     var wcString = req.params.WC.substring(6);
 //     tempWC = wcString;
@@ -272,7 +276,7 @@ app.get('/api/database', async function (req, res) {
     console.log(chosenWC);
     try{
         const ans = await Code.findAll({
-            attributes: ['DowntimeCode', 'DownTimeL3', 'DownTimeL4', 'AccessLevel', 'Filter', 'Exclude', 'Description'],   
+            attributes: ['DowntimeCode', 'DownTimeL3', 'DownTimeL4', 'AccessLevel', 'Filter', 'Exclude', 'Rank', 'Description'],   
             where: {
                 AccessLevel: {
                     [Op.gte]: 1
@@ -334,7 +338,7 @@ app.post('/api/database/editdesc/:DTC/:CHANGETO/:EMAIL', async (req, res) => {
     res.json("editted");
 });
 
-app.post('/api/database/add/:TYP/:DTL2/:DTL3/:FLTR/:EXCL/:DESC/:EMAIL', async (req,res) => {
+app.post('/api/database/add/:TYP/:DTL2/:DTL3/:FLTR/:EXCL/:DESC/:EMAIL/:RANK', async (req,res) => {
     try{
         var emailStr;
         var DTL1;
@@ -374,7 +378,7 @@ app.post('/api/database/add/:TYP/:DTL2/:DTL3/:FLTR/:EXCL/:DESC/:EMAIL', async (r
                 for(let i = 0; i < filters.length; i++){
                     await Code.create({DowntimeCode: DTCs[i], DownTimeL1: DTL1,
                         DownTimeL2: req.params.DTL2, DownTimeL3: 'Tool Change', DownTimeL4: req.params.DTL3,
-                        AccessLevel: accLvl, Filter: filters[i], Valid: 'Y', Rank: 1,
+                        AccessLevel: accLvl, Filter: filters[i], Valid: 'Y', Rank: req.params.RANK,
                         Exclude: excl, Description: req.params.DESC}).then( value => {
                             console.log(value);
                             if(req.params.EMAIL === "true"){
@@ -401,7 +405,7 @@ app.post('/api/database/add/:TYP/:DTL2/:DTL3/:FLTR/:EXCL/:DESC/:EMAIL', async (r
                 for(let i = 0; i < filters.length; i++){
                     await Code.create({DowntimeCode: DTCs[i], DownTimeL1: DTL1,
                         DownTimeL2: req.params.DTL2, DownTimeL3: req.params.DTL3, DownTimeL4: req.params.DTL3,
-                        AccessLevel: accLvl, Filter: filters[i], Valid: 'Y', Rank: 1,
+                        AccessLevel: accLvl, Filter: filters[i], Valid: 'Y', Rank: req.params.RANK,
                         Exclude: excl, Description: req.params.DESC}).then( value => {
                             console.log(value);
                             if(req.params.EMAIL === "true"){
@@ -418,7 +422,7 @@ app.post('/api/database/add/:TYP/:DTL2/:DTL3/:FLTR/:EXCL/:DESC/:EMAIL', async (r
     res.json("added");
 });
 
-app.post('/api/database/add/:DTC/:DTL4/:DESC/:EMAIL', async (req, res) => {
+app.post('/api/database/add/:DTC/:DTL4/:DESC/:EMAIL/:RANK', async (req, res) => {
     try{
         var entry = await Code.findByPk(req.params.DTC);
         var type;
@@ -446,7 +450,7 @@ app.post('/api/database/add/:DTC/:DTL4/:DESC/:EMAIL', async (req, res) => {
 
                     entry = await Code.create({DowntimeCode: newDTC, DownTimeL1: entry.DownTimeL1,
                         DownTimeL2: entry.DownTimeL2, DownTimeL3: entry.DownTimeL4, DownTimeL4: req.params.DTL4,
-                        AccessLevel: accLvl, Filter: entry.Filter, Valid: entry.Valid, Rank: entry.Rank,
+                        AccessLevel: accLvl, Filter: entry.Filter, Valid: entry.Valid, Rank: req.params.RANK,
                         Exclude: entry.Exclude, Description: req.params.DESC});
 
                     if(req.params.EMAIL === "true"){
@@ -467,7 +471,7 @@ app.post('/api/database/add/:DTC/:DTL4/:DESC/:EMAIL', async (req, res) => {
 
                     entry = await Code.create({DowntimeCode: newDTC, DownTimeL1: entry.DownTimeL1,
                         DownTimeL2: entry.DownTimeL2, DownTimeL3: entry.DownTimeL4, DownTimeL4: req.params.DTL4,
-                        AccessLevel: accLvl, Filter: entry.Filter, Valid: entry.Valid, Rank: entry.Rank,
+                        AccessLevel: accLvl, Filter: entry.Filter, Valid: entry.Valid, Rank: req.params.RANK,
                         Exclude: entry.Exclude, Description: req.params.DESC});
                     if(req.params.EMAIL === "true"){
                         emailStr = "NEW CODE IN DATABASE: " + req.params.DTL4 + " in " + entry.DownTimeL4 + " in Tool Changes, with code: " + newDTC + ". \n Description: "

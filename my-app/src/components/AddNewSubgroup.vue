@@ -56,7 +56,7 @@
                     </b-col>
                     <b-col>
                         <b-form-checkbox-group id="radio-group-2" v-model="FLTRSelect" :stacked="true" :state="FLTRState" 
-                                                :options="upWorkCentres" @change="reqExcludes" required>
+                                                :options="upWorkCentres" required>
                             <b-form-invalid-feedback :state="FLTRState">Select one </b-form-invalid-feedback>
                         </b-form-checkbox-group>
                     </b-col>
@@ -113,6 +113,7 @@
                 this.checkRes();
             },
             appendedWC(){
+                //have to rename array var names so can be processed by bootstrap vue functions
                 this.upWorkCentres.push({text: 'ALL', value: 'ALL'})
                 this.$props.WorkCentres.forEach(wc => {
                     if(wc.Code != '  ')
@@ -143,7 +144,6 @@
                     console.log(excludeString);
                     this.readyToSend = false;
                     this.$emit('dataSentFromChild', this.$props.item, this.DTL2Select, this.DTL3String, filters, excludeString, this.DESCString, this.sendEmail);
-                    setTimeout(function(){console.log("next one")},1000);
                 }
             },
             makeToast() {

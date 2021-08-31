@@ -91,6 +91,7 @@ export default ({
             this.checkRes();
         },
         checkRes(){
+            //wait for user to select option before continuing/sending function to server
             if(this.readyToSend){
                 if(this.editIndex != '')
                     this.editDesc();
@@ -102,6 +103,7 @@ export default ({
         },
         yesEmail(){
             this.sendEmail = true;
+            //readyToSend is the trigger var for program progression
             this.readyToSend = true;
         },
         noEmail(){

@@ -43,6 +43,7 @@ export default ({
             return this.$props.entry.DowntimeCode.includes("TC");
         },
         firstOrLater: function () {
+            //is code a subgroup or not
             return (this.$props.entry.DownTimeL3 === this.$props.entry.DownTimeL4)||(this.$props.entry.DownTimeL3==='Tool Change')
         }
     }

@@ -48,15 +48,14 @@ export default ({
     },
     computed: {
         checkOpen () {
-            console.log(this.$props.opened == 'D')
-            console.log(this.$props.item)
-            console.log(this.$props.item == 'Downtime Codes')
-            if((this.$props.opened == 'T' && this.$props.item == "Tool Change Codes") ||
-                (this.$props.opened == 'D' && this.$props.item == "Downtime Codes")){
-                    console.log(true)
-                return true;
+            if(!this.checkAdding){
+                if((this.$props.opened == 'T' && this.$props.item == "Tool Change Codes") ||
+                    (this.$props.opened == 'D' && this.$props.item == "Downtime Codes")){
+                    return true;
+                } else {
+                    return false
+                }
             } else {
-                console.log(false)
                 return false
             }
         },

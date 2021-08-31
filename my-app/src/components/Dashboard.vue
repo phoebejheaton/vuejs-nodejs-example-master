@@ -1,11 +1,13 @@
 <template>
   <div class = "dashboard">
       <Header v-on:searchRequest="searchRequestFromGrandchild"
-              v-on:userLogOn="logOnRequest" v-on:userLogOff="logOffRequest" 
+              v-on:userLogOn="logOnRequest" 
+              v-on:userLogOff="logOffRequest" 
               v-on:departmentSelect="departmentSelectReceived"
               v-on:wcSelected="wcSelectReceived"
               :WorkCentres="WorkCentres"
-              :userStat="userStat" :Departments="Departments"/>
+              :userStat="userStat" 
+              :Departments="Departments"/>
       <div class="toasted">        
         <b-toast class="ml-2" id="logStatus" :variant="toastVar" :title="toastName" static no-auto-hide>{{toastString}}</b-toast>
       </div>
@@ -13,10 +15,13 @@
               v-on:editIndexFromChild="editIndexFromChildReceived" 
               v-on:addDataToSubSending="addDataToSubReceived" 
               v-on:dataSentFromGrandchild="dataSentFromGrandchildReceived"
-              v-on:resetSearch="resettingSearch" :WorkCentres="WorkCentres"
-              ref="entryChild"
-              :Entries="Entries" :searchingFor="searchingFor" :userStat="userStat"
-              :Excludes="Excludes"/>
+              v-on:resetSearch="resettingSearch" 
+              :WorkCentres="WorkCentres"
+              :Entries="Entries" 
+              :searchingFor="searchingFor" 
+              :userStat="userStat"
+              :Excludes="Excludes"
+              ref="entryChild"/>
   </div>
 </template>
 
@@ -34,6 +39,9 @@ import {getDepartments} from '../services/EntryService'
 import {postDepartment} from '../services/EntryService'
 import {getWCs} from '../services/EntryService'
 import {postWC} from '../services/EntryService'
+
+/* DASHBOARD IS MAIN HOST FOR COMPONENTS
+MAIN USE IS FOR PASSING MESSAGES FROM ENTRY/HEADER TO ENTRY SERVICE, QUITE OFTEN JUST PASSES THROUGH AND FORWARDS MESSAGE */
 
 export default {
   name: 'Dashboard',
@@ -99,14 +107,14 @@ export default {
         this.getAllEntries();
       })
     },
-    addDataToSubReceived(index, DTL3, DESC, EMAIL){
-      addEntry(index, DTL3, DESC, EMAIL).then (response => {
+    addDataToSubReceived(index, DTL3, DESC, EMAIL, rank){
+      addEntry(index, DTL3, DESC, EMAIL, rank).then (response => {
         console.log(response)
         this.getAllEntries();
       })
     },
-    dataSentFromGrandchildReceived(TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL){
-      addSubGroup(TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL).then (response => {
+    dataSentFromGrandchildReceived(TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL, rank){
+      addSubGroup(TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL, rank).then (response => {
         console.log(response)
         this.getAllEntries();
       })

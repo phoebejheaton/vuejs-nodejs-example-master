@@ -3,10 +3,12 @@
         <div class="entryToasted">        
             <b-toast class="ml-2" id="userStatus" :variant="toastVar" :title="toastName" static no-auto-hide>{{toastString}}</b-toast>
         </div>
+        <!-- split screen in half for tree structure -->
         <div class = "wrapper">
             <div class='left ml-5 mr-2 pr-2'>
                 <b-container fluid>
                     <span v-if="!checkSearching">
+                        <!-- back button to stop searching but also offsets entries to be level -->
                         <b-button class="mb-0 mt-4 ml-4" size="lg" variant="warning" @click="resetSearch">Back</b-button>
                         <span v-if="SimilarEntries.length === 0">
                             <b-card class = "card mt-4 mb-1 ml-4 pt-1" border-variant="primary" bg-variant="dark" text-variant="white">
@@ -14,15 +16,20 @@
                             </b-card>
                         </span>
                     </span>
+                    <!-- expanded entry -->
                     <b-card-group class="mb-0 mt-4 ml-2 " deck v-for="entry in EntryExpanded" v-bind:key="entry.DowntimeCode" style="max-width:55rem">
                         <template>
                             <keep-alive>
-                                <component v-bind:is="override" v-on:indexFromChild="indexFromChildReceived" 
+                                <component v-bind:is="override" 
+                                        v-on:indexFromChild="indexFromChildReceived" 
                                         v-on:indexFromGrandchild="indexFromGrandchildReceived"
                                         v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
                                         v-on:addIndexFromChild="addIndexFromChildReceived" 
                                         v-on:illegalEditFromChild="illegalEditFromChildReceived"
-                                        v-bind:extendable="true" :entry="entry" :addingTo="addingTo" :userStat="userStat"></component>
+                                        v-bind:extendable="true" 
+                                        :entry="entry" 
+                                        :addingTo="addingTo" 
+                                        :userStat="userStat"></component>
                             </keep-alive>
                         </template>
                     </b-card-group>
@@ -33,25 +40,35 @@
                         <template>
                             <FilterCard v-on:flipFromChild="flipFromChildReceived" 
                                         v-on:bigAddFromChild="bigAddFromChildReceived"
-                                        :item="item.name" :opened="chosenDTC" :adding="chosenADD"></FilterCard>
+                                        :item="item.name" 
+                                        :opened="chosenDTC" 
+                                        :adding="chosenADD"></FilterCard>
                         </template> 
                     </b-card-group>
 
                     <template v-if="wholeAddingTo">
-                        <AddNewSubgroup v-on:dataSentFromChild="dataSentFromChildReceived" v-on:getTempWC="getTempWCReceived"
-                                        :item="chosenADD" :WorkCentres="WorkCentres" ></AddNewSubgroup>
+                        <AddNewSubgroup v-on:dataSentFromChild="dataSentFromChildReceived" 
+                                        :item="chosenADD" 
+                                        :WorkCentres="WorkCentres" ></AddNewSubgroup>
                     </template>
 
                 
+                    <template v-if="!wholeAddingTo">
                     <b-card-group class="mt-4 mb-4 ml-2 " deck v-for="entry in SimilarEntries" v-bind:key="entry.DowntimeCode">
                         <template >
-                            <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" :entry="entry"></component>
+                            <component v-bind:is="cardShow" 
+                                        v-on:indexFromChild="indexFromChildReceived" 
+                                        :entry="entry"></component>
                         </template> 
                     </b-card-group>
+                    </template>
 
                     <b-card-group class="mb-3 " deck v-for="item in itemsAfter" v-bind:key="item.name">
                         <template>
-                            <FilterCard v-on:flipFromChild="flipFromChildReceived" :item="item.name" :opened="chosenDTC" :adding="chosenADD"></FilterCard>
+                            <FilterCard v-on:flipFromChild="flipFromChildReceived" 
+                            :item="item.name" 
+                            :opened="chosenDTC" 
+                            :adding="chosenADD"></FilterCard>
                         </template> 
                     </b-card-group>
                     </div>
@@ -63,10 +80,12 @@
                     <span v-if="!checkSearching">
                         <b-button class="mb-0 mt-4 ml-4" size="lg" style="visibility: hidden;">hello</b-button>
                     </span>
-                <b-card-group  deck v-for="entry in EntriesExpandedChildren" v-bind:key="entry.DowntimeCode">
+                <b-card-group  deck v-for="entry in EntriesExpandedChildren" 
+                                v-bind:key="entry.DowntimeCode">
                         <template>
                             <keep-alive>
-                                <component v-bind:is="cardShow" v-on:indexFromChild="indexFromChildReceived" 
+                                <component v-bind:is="cardShow" 
+                                v-on:indexFromChild="indexFromChildReceived" 
                                 v-on:editIndexFromGrandchild="editIndexFromGrandchildReceived"
                                 v-on:indexFromGrandchild="indexFromGrandchildReceived"
                                 v-bind:extendable="false"
@@ -107,14 +126,14 @@ export default {
         data() {
             return {
                 expanded: null,
-                override: 'BigCard',
+                override: 'BigCard', //strings for <template v-bind: > as cannot use raw string
                 cardShow: 'SmallCard',
-                chosenDTC: "N",
-                chosenADD: 'N',
+                chosenDTC: "N", //DT or TC expanded
+                chosenADD: 'N', //DT or TC chosen to add new subgroup
                 items: [{name: "Downtime Codes"}, {name: "Tool Change Codes"}],
-                addingTo: false,
+                addingTo: false, //checkers, is user adding a new subgroup or a new subcard
                 wholeAddingTo: false,
-                extendable: Boolean,
+                extendable: Boolean, //hides card sections
                 toastString: 'Request changes with Cell Leader',
                 toastVar: 'danger',
                 toastName: 'Permission denied'
@@ -128,8 +147,19 @@ export default {
                 this.chosenADD = 'N';
                 this.chosenDTC = 'N';
             },
+            nextRank(){
+                if(this.addingTo){
+                    if(this.EntriesExpandedChildren.length != 0)
+                        return Math.max.apply(Math, this.EntriesExpandedChildren.map(entry => (entry.Rank)));
+                    else return 1;
+                } else {
+                    return 1;
+                }
+            },
             expandRow(entry) {
-                if(this.expanded != null){
+                //upholds infinite recursion through parent/child
+
+                if( this.expanded != null){
                     if(this.expanded === entry){
                         if(entry.DowntimeCode.includes('DT')){
                             if(this.expanded.AccessLevel > 1 ){
@@ -175,8 +205,7 @@ export default {
             },
             flipFromChildReceived(item){
                 console.log("flipped!!!!!!!")
-                console.log('flipped item:' + item)
-                console.log('dtc: ' + this.chosenDTC)
+                //closes DT or TC when other is selected
                 if(this.chosenDTC === 'D' && item === 'D'){
                     this.chosenDTC = 'N';
                     this.expanded = null;
@@ -201,7 +230,9 @@ export default {
             },
             addDataToSubReceived(index,DTL3,DESC, EMAIL){
                 console.log("up!!!")
-                this.$emit('addDataToSubSending',index,DTL3,DESC, EMAIL);
+                var rank = this.nextRank();
+                rank++;
+                this.$emit('addDataToSubSending',index,DTL3,DESC, EMAIL, rank);
             },
             bigAddFromChildReceived(item){
                 if(this.retUserAuth){
@@ -211,13 +242,17 @@ export default {
                     } else {
                         this.chosenADD = item;
                     }
+                    this.flipFromChildReceived(item);
                 } else {
                     this.$bvToast.show('userStatus');
                 }
             },
             dataSentFromChildReceived(TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL){
                 console.log("parent recieved data!!!!!")
-                this.$emit('dataSentFromGrandchild', TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL);
+                console.log(this.addingTo)
+                var rank = this.nextRank();
+                rank++;
+                this.$emit('dataSentFromGrandchild', TYP, DTL2, DTL3, FLTR, EXCL, DESC, EMAIL, rank);
             },
             resetSearch(){
                 console.log("resetting!!!!!")
@@ -238,6 +273,7 @@ export default {
                 toExpand.sort( (a,b) => a.DownTimeL4.localeCompare(b.DownTimeL4));
                 return toExpand;
             },
+            //collects subgroups of chosen section (ie ACCESSLEVEL 1 or 2)
             SimilarEntries: function () {
                 var toExpand = {};
                 if(!this.checkSearching){
@@ -268,6 +304,7 @@ export default {
                 } else return this.SimilarEntries;
             },
             EntryExpanded: function() {
+                //selects object for selected card
                 console.log("entered")
                 if(this.expanded != null){
                     var toExpand;
@@ -280,6 +317,7 @@ export default {
                 } else return null;
             },
             EntriesExpandedChildren: function () {
+                //finds children of selected card
                 if(this.expanded != null){
                     var toExpand = {};
                     if(this.expanded.DowntimeCode.includes("TC")){
@@ -291,6 +329,7 @@ export default {
                     return toExpand;
                 } else return null;
             },
+            //items before/after split the DT or TC section so the database entries fit in the middle
             itemsBefore: function () {
                 var ret = {};
                 if(!this.checkSearching)
@@ -332,6 +371,7 @@ export default {
         padding-top: 5px;
         padding-right: 5px;
     }
+
     .wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
