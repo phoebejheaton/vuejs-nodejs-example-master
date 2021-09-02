@@ -2,7 +2,6 @@ var express = require('express');
 const path = require('path');
 const nodemailer = require("nodemailer");
 const {Sequelize, Model, DataTypes, Op} = require('sequelize');
-const fs = require('fs');
 
 var app = express();
 
@@ -16,18 +15,10 @@ var chosenWC = 'Z';
 //hashed 
 const password = '1414469398';
 
-function emailList(){
-    fs.readFile('./EmailList.txt', 'utf-8', (err, data) => {
-        if(err) throw err;
-        console.log( data);
-    })
-};
-
 //email object configuration
 async function email(emailContent) {
     try{
         //let testAccount = await nodemailer.createTestAccount();
-        let toSend = emailList();
 
         let transporter = nodemailer.createTransport({
             host: "smtp.open.liae.lisi",

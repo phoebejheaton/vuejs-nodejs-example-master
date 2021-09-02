@@ -158,9 +158,9 @@ export default {
             },
             expandRow(entry) {
                 //upholds infinite recursion through parent/child
-
+                
                 if( this.expanded != null){
-                    if(this.expanded === entry){
+                    if(this.expanded.DowntimeCode===entry.DowntimeCode){
                         if(entry.DowntimeCode.includes('DT')){
                             if(this.expanded.AccessLevel > 1 ){
                                 this.expanded = this.DownTimeCodes.filter(code => (code.AccessLevel === entry.AccessLevel-1)&&(code.DownTimeL4 === entry.DownTimeL3));
@@ -184,7 +184,6 @@ export default {
                     this.expanded = entry;
                 }
                 
-                console.log(this.expanded);
             },
             indexFromChildReceived(index) {
                 console.log("index recieved!!!!!!")
