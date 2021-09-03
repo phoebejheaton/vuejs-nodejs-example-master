@@ -21,6 +21,7 @@ async function email(emailContent) {
     try{
 
         var toSend = fs.readFileSync('./EmailList.txt', 'utf-8');
+        //let testAccount = await nodemailer.createTestAccount();
 
         let transporter = nodemailer.createTransport({
             host: "smtp.open.liae.lisi",
