@@ -2,7 +2,6 @@ var express = require('express');
 const path = require('path');
 const nodemailer = require("nodemailer");
 const {Sequelize, Model, DataTypes, Op} = require('sequelize');
-const fs = require('fs');
 
 var app = express();
 
@@ -19,8 +18,7 @@ const password = '1414469398';
 //email object configuration
 async function email(emailContent) {
     try{
-
-        var toSend = fs.readFileSync('./EmailList.txt', 'utf-8');
+        //let testAccount = await nodemailer.createTestAccount();
 
         let transporter = nodemailer.createTransport({
             host: "smtp.open.liae.lisi",
@@ -30,7 +28,7 @@ async function email(emailContent) {
 
         let info = await transporter.sendMail({
             from: '"Downtime Codes Update Email <DTCUpdateAddress@lisi-group.com>"',
-            to: toSend,
+            to: 'phoebeheaton1@gmail.com',
             subject: "AUTOMATED EMAIL: Update to DowntimeCodes",
             text: emailContent
         });
@@ -96,7 +94,7 @@ const BackUp = sequelize.define('DowntimeCodesBackup', {
     tableName: 'DowntimeCodesBackup'
 });
 
-const Code = sequelize.define('DowntimeCodes_rev2', {
+const Code = sequelize.define('DowntimeCodes_phoebe', {
     
     DowntimeCode: {
         type: DataTypes.STRING,
@@ -137,7 +135,7 @@ const Code = sequelize.define('DowntimeCodes_rev2', {
 },{
     timestamps: false,
     freezeTableName: true,
-    tableName: 'DowntimeCodes_rev2'
+    tableName: 'DowntimeCodes_phoebe'
 });
 
 const Centres = sequelize.define('WorkCentresForDTCProgram', {

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.bundle.js",
     "build": "webpack",
-    "dev": "nodemon ./server.js localhost 3080"
+    "dev": "nodemon ./server.js localhost 1916"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",
     "nodemailer": "^6.6.3",
-    "random-id": "^1.0.4"
+    "random-id": "^1.0.4",
+    "sequelize": "^6.6.5",
+    "tedious": "^12.0.0"
   },
   "devDependencies": {
     "del": "^5.1.0",

@@ -6,13 +6,14 @@
   overflow-x: hidden;
   padding-top: 20px;
 }
- .footer {
-   padding: 2%;
-    background-color: red;
-    font-size: 50px;
-    text-align: center;
-    width: 100%
- }
+
+.footer {
+  padding: 2%;
+  background-color: red;
+  font-size: 50px;
+  text-align: center;
+  width: 100%
+}
 
  .app{
   background-color: aquamarine !important;
@@ -69,18 +70,36 @@ h1 {
   background-color: rgba(52, 58, 64);
 }
 
-::-webkit-scrollbar-track {
-  background: #212529;
+body {
+  background-color: #212529;
+  margin: 0;
+  padding: 0;
+  overflow: overlay;
 }
 
-::-webkit-scrollbar{
+/* width */
+::-webkit-scrollbar {
   width: 10px;
 }
 
+ 
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+ 
+
+/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #007bff;
 }
 
-::-webkit-scrollbar-thumg:hover {
+ 
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
   background: #68d2ff;
 }
+

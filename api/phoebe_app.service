@@ -1,0 +1,16 @@
+[Unit]
+Description=Phobe_app
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+StartLimitIntervalSec=500
+StartLimitBurst=5
+[Service]
+Type=forking
+ExecStart=/home/LISIADMIN/NETWORK_DRIVE/share/phoebe/vuejs-nodejs-example-master/api/start.sh
+Restart=always
+RestartSec=5
+User=LISIADMIN
+Group=LISIADMIN
+[Install]
+WantedBy=multi-user.target

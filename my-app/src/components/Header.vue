@@ -12,7 +12,9 @@
             <b-nav-form class="ml-auto">
                 <b-form-input class="mr-1" v-model="searchVal" placeholder="Search...">{{searchVal}}</b-form-input>
                 <b-button class="mr-1" variant="success" @click="sendSearchRequest">🔎</b-button>
-                <b-button variant="success" v-b-modal.signInModal>👤</b-button>
+                <b-button variant="success" class="mr-1" v-b-modal.signInModal>👤</b-button>
+                <b-button class="mr-1" a href="https://docs.google.com/document/d/1l4gfns2mZqQzG6NlnGSXRHevTZBiVKsXHASOgWFSJZY/edit#heading=h.pgwkq9yr3hku" variant="success">Help</b-button>
+                <b-button a href="http://172.16.113.4:1900/groupterminal/" variant="success">Group Terminal</b-button>
             </b-nav-form >
     </b-navbar>
     <b-modal id="signInModal" title="Sign In" centered class="modal" 

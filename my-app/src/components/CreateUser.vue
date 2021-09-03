@@ -3,17 +3,17 @@ export default {
   name: 'CreateEntry',
   data() {
     return {
-          DowntimeCode = "",
-          DownTimeL1 = "",
-          DownTimeL2 = "",
-          DownTimeL3 = "",
-          DownTimeL4 = "",
-          AccessLevel = "",
-          Filter = "",
-          Valid = "",
-          Rank = "",
-          Exclude = "",
-          Description = ""
+          DowntimeCode: "",
+          DownTimeL1: "",
+          DownTimeL2: "",
+          DownTimeL3: "",
+          DownTimeL4: "",
+          AccessLevel: "",
+          Filter: "",
+          Valid: "",
+          Rank: "",
+          Exclude: "",
+          Description: ""
     }
   },
   methods: {
